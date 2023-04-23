@@ -1,11 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import socketIO from "socket.io-client";
+
+const ENDPOINT = "http://localhost:8000";
+const socket = socketIO(ENDPOINT, { transports: ["websocket"] });
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [count, setCount] = useState(0);
+  socket.on("connect", () => {});
   return (
     <>
       <div>
@@ -29,7 +33,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
