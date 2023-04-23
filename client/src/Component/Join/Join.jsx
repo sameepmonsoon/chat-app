@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { RiChatHeartFill } from "react-icons/all";
 import { Link } from "react-router-dom";
-export let userName;
+let userName;
 const Join = () => {
   const [user, setUser] = useState("");
   const handleChange = (e) => {
@@ -9,12 +9,12 @@ const Join = () => {
     console.log(user);
   };
   const sendUser = () => {
-    userName = document.getElementById("email").value;
+    userName = document.getElementById("username").value;
   };
   return (
-    <div className="join-page h-screen w-full  flex items-center justify-center text-green-900 ">
+    <div className="join-page h-screen w-full  flex items-center justify-center text-green-900">
       <div className="join-container h-[25rem] bg-green-200 w-[25rem] flex flex-col items-center p-3 justify-start gap-10 border-[1px] border-green-200">
-        <RiChatHeartFill size={25} className="text-black"/>
+        <RiChatHeartFill size={25} className="text-black" />
         <label
           htmlFor="username"
           className="w-[90%] flex flex-col justify-center items-start">
@@ -33,7 +33,7 @@ const Join = () => {
           <button
             onClick={(e) => {
               !user ? e.preventDefault() : null;
-              sendUser;
+              sendUser();
             }}
             type="submit"
             className="p-1 w-[90%] h-10 border-[1px] bg-white border-green-400 hover:bg-green-300">
@@ -46,3 +46,4 @@ const Join = () => {
 };
 
 export default Join;
+export { userName };

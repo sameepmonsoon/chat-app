@@ -17,9 +17,15 @@ io.on("connection", (socket) => {
   socket.on("joined", ({ userName }) => {
     users[socket.id] = userName;
     console.log(userName);
+    socket.broadcast.emit("joined", {
+      user: "admin",
+      message: `${users[socket.id]} has joined`,
+    });
+    socket.emit("joined", {
+      user: "admin",
+      message: `${users[socket.id]} welcome to the chat`,
+    });
   });
-  socket.emit("joined", { user: "admin", message: "welcome" });
-  socket.broadcast.emit("joined", { user: "admin", message: "welcome" });
 });
 app.get("/", (req, res) => {
   res.send("its working");

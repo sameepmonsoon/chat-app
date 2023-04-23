@@ -6,13 +6,20 @@ import { RiChatHeartFill, IoMdSend, IoIosSend } from "react-icons/all";
 const Chat = () => {
   const ENDPOINT = "http://localhost:8000/";
   const socket = socketIO(ENDPOINT, { transports: ["websocket"] });
+  console.log(userName);
 
   useEffect(() => {
     socket.on("connect", () => {
-      //   alert("connect");
+      alert("connect");
     });
     console.log(socket);
     socket.emit("joined", { userName });
+    socket.on("welcome", (data) => {
+      console.log("welocme to the chat");
+    });
+    socket.on("user  joined", (data) => {
+      console.log("welocme to the chat");
+    });
   }, [socket]);
   return (
     <div className="chat-page h-screen w-full flex items-center justify-center">
