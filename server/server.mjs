@@ -7,15 +7,20 @@ const app = express();
 const httpServer = http.createServer(app);
 const io = new SocketServer(httpServer);
 const port = 8000;
-
+const users = [{}];
 httpServer.listen(port, () => {
   console.log(`server is working on http://localhost:${port}`);
 });
 
 io.on("connection", (socket) => {
   console.log("new connection");
+  socket.on("joined", ({ userName }) => {
+    users[socket.id] = userName;
+    console.log(userName);
+  });
+  socket.emit("joined", { user: "admin", message: "welcome" });
+  socket.broadcast.emit("joined", { user: "admin", message: "welcome" });
 });
-
 app.get("/", (req, res) => {
   res.send("its working");
 });

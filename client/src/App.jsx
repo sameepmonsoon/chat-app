@@ -1,10 +1,9 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import socketIO from "socket.io-client";
 import { Router, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Join from "./Component/Join/Join";
+import Chat from "./Component/chat/Chat";
 const ENDPOINT = "http://localhost:8000";
 const socket = socketIO(ENDPOINT, { transports: ["websocket"] });
 
@@ -16,6 +15,10 @@ function App() {
     {
       path: "/",
       element: <Join />,
+    },
+    {
+      path: "/chat",
+      element: <Chat />,
     },
   ]);
 
