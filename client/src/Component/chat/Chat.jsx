@@ -5,30 +5,35 @@ import { useEffect } from "react";
 import { RiChatHeartFill, IoMdSend, IoIosSend } from "react-icons/all";
 const Chat = () => {
   const ENDPOINT = "http://localhost:8000/";
-  const socket = socketIO(ENDPOINT, { transports: ["websocket"] });
   console.log(userName);
 
   useEffect(() => {
-    socket.on("connect", () => {
-      alert("connect");
-    });
-    console.log(socket);
+    const socket = socketIO(ENDPOINT, { transports: ["websocket"] });
+
+    socket.on("connect", () => {});
+
+    // emit the joined event with the username
     socket.emit("joined", { userName });
+
     socket.on("welcome", (data) => {
-      console.log("welocme to the chat");
+      console.log(data.user, data.message);
     });
-    socket.on("user  joined", (data) => {
-      console.log("welocme to the chat");
+    socket.on("userjoined", (data) => {
+      console.log(data.message, data.user);
     });
-  }, [socket]);
+    socket.on("leave", (data) => {
+      console.log(data.message, data.user);
+    });
+  }, []);
+
   return (
     <div className="chat-page h-screen w-full flex items-center justify-center">
-      <div className="chat-container h-3/4 w-[30%] bg-green-100">
-        <div className="header h-[3rem] bg-green-400 flex justify-start items-center px-5">
+      <div className="chat-container lg:h-3/4 sm:h-[70%] h-[50%] min-w-[40%] lg:min-w-[30%] bg-green-100 flex flex-col items-center justify-between">
+        <div className="header h-[3rem] bg-green-400 flex justify-start items-center px-5 w-full">
           <RiChatHeartFill size={25} />
         </div>
-        <div className="chatbox"></div>
-        <div className="inputbox flex justify-start items-center h-10 p-[2px]">
+        <div className="chatbox flex-1">&nbsp;</div>
+        <div className="inputbox flex justify-start items-center h-10 p-[2px] w-full">
           <input
             type="text"
             name="message"

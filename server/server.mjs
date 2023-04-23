@@ -11,22 +11,29 @@ const users = [{}];
 httpServer.listen(port, () => {
   console.log(`server is working on http://localhost:${port}`);
 });
-
 io.on("connection", (socket) => {
   console.log("new connection");
   socket.on("joined", ({ userName }) => {
     users[socket.id] = userName;
-    console.log(userName);
-    socket.broadcast.emit("joined", {
-      user: "admin",
-      message: `${users[socket.id]} has joined`,
-    });
+
     socket.emit("joined", {
-      user: "admin",
+      user: `${users[socket.id]}`,
       message: `${users[socket.id]} welcome to the chat`,
+    });
+
+    socket.broadcast.emit("userjoined", {
+      user: `${users[socket.id]}`,
+      message: `${users[socket.id]} joined the chat.`,
+    });
+  });
+  socket.on("leave", () => {
+    socket.broadcast.emit("left the chat", {
+      user: "Admin",
+      message: "Left the chat",
     });
   });
 });
+
 app.get("/", (req, res) => {
   res.send("its working");
 });
