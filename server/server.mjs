@@ -26,6 +26,11 @@ io.on("connection", (socket) => {
       message: `${users[socket.id]} joined the chat.`,
     });
   });
+
+  socket.on("message", ({ message, id }) => {
+    io.emit("sendMessage", { user: users[id], message });
+    console.log(message);
+  });
   socket.on("leave", () => {
     socket.broadcast.emit("left the chat", {
       user: "Admin",

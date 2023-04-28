@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { userName } from "../Join/Join";
 import socketIO from "socket.io-client";
 import { useEffect } from "react";
 import { RiChatHeartFill, IoMdSend, IoIosSend } from "react-icons/all";
+let socket;
 const Chat = () => {
   const ENDPOINT = "http://localhost:8000/";
-  console.log(userName);
-
+  const [id, setId] = useState();
+  const send = () => {
+    const message = document.getElementById("message").value;
+    socket.emit("message", { message, id });
+    document.getElementById("message").value = "";
+  };
   useEffect(() => {
-    const socket = socketIO(ENDPOINT, { transports: ["websocket"] });
+    socket = socketIO(ENDPOINT, { transports: ["websocket"] });
 
     socket.on("connect", () => {});
 
@@ -24,8 +29,15 @@ const Chat = () => {
     socket.on("leave", (data) => {
       console.log(data.message, data.user);
     });
-  }, []);
 
+    setId(socket.id);
+  }, []);
+  useEffect(() => {
+    socket.on("sendMessage"),
+      (data) => {
+        console.log(data.user, data.message, data.id);
+      };
+  }, []);
   return (
     <div className="chat-page h-screen w-full flex items-center justify-center">
       <div className="chat-container lg:h-3/4 sm:h-[70%] h-[50%] min-w-[40%] lg:min-w-[30%] bg-green-100 flex flex-col items-center justify-between">
@@ -42,6 +54,7 @@ const Chat = () => {
           />
           <button
             type="submit"
+            onClick={send}
             className="send group min-w-[3rem] h-full flex items-center justify-center hover:opacity-[0.8] bg-green-400 border-[1px] border-green-900 opacity-100">
             <IoMdSend
               size={24}
