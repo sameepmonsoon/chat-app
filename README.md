@@ -1,6 +1,6 @@
 # Simple Chat App
 
-It's a simple messenger chat app, built using socket.io, which allows only two users.
+It's a simple messenger chat app, built on MERN Stack using socket.io, which allows only two users.
 
 # Technologies Used
 
